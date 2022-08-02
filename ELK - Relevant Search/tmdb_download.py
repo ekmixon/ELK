@@ -9,6 +9,7 @@ Mainly did this for 'Relevant Search' book which has code that does not work
     with current versions of Python and ELK
 '''
 
+
 import requests
 # import json
 import time
@@ -44,8 +45,11 @@ tmdb_out = open(path,'w')
 # this won't be an actual count of records returned
 # due to invalid index arguments
 for idx in range(50000, 200000):
-    print("trying index - {}".format(idx))
-    resp1 = requests.get('https://api.themoviedb.org/3/movie/' + str(idx) + '?api_key=' + api_key)
+    print(f"trying index - {idx}")
+    resp1 = requests.get(
+        f'https://api.themoviedb.org/3/movie/{str(idx)}?api_key={api_key}'
+    )
+
     #print(resp1.text)
     #print(resp1.status_code)
     # check the status code for a valid index
@@ -55,7 +59,7 @@ for idx in range(50000, 200000):
         tmdb_out.write(resp1.text + '\n')
         # check the rate limit left and delay if we're pushing it
         rate_limit = resp1.headers["X-RateLimit-Remaining"]
-        print("rate limit : {}".format(rate_limit))
+        print(f"rate limit : {rate_limit}")
         #print(rate_limit)
         if int(rate_limit) <= 2:
             time.sleep(long_delay)

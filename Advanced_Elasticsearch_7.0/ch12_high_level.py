@@ -25,16 +25,6 @@ class Search(Request):
     def count(self):
         if hasattr(self, '_response'):
             return self._response.hits.total
-            es = connections.get_connection(self._using)
-            d = self.to_dict(count=True)
-            return es.count(index=self._index,
-            body=d, **self._params )['count']
-            def execute(self, ignore_cache=False):
-                if ignore_cache or not hasattr(self, '_response'):
-                    es = connections.get_connection(self._using)
-                    self._response = self._response_class(
-                    self, es.search(index=self._index, body=self.to_dict(), **self._params))
-                    return self._response
 
 class TestHighLevelClientSearch(unittest.TestCase):
     def test_match_phrase_query_via_low_level_client(self):

@@ -22,7 +22,6 @@ class ESLowLevelClient:
 def get(self, index, feature=None, params=None):
     if index in SKIP_IN_PATH:
         raise ValueError("Empty value passed for a required argument 'index'.")
-        return self.transport.perform_request("GET", _make_path(index, feature), params=params)
 
 class TestLowLevelClientSearch(unittest.TestCase):
     es = ESLowLevelClient.get_instance()

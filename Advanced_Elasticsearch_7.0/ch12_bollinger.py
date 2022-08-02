@@ -5,7 +5,7 @@ from elasticsearch_dsl.aggs import A, DateHistogram, ScriptedMetric, MovingAvg, 
 
 def bollinger_band(index='cf_etf_hist_price', start_date='2018-12-26', end_date='2019-03-25', symbol='rfem'):
     ESLowLevelClientByConnection.get_instance()
-    search = Search(index=index, using='high_level_client')[0:0]
+    search = Search(index=index, using='high_level_client')[:0]
     search.query = Q(Bool(must=[Range(date={'gte': '2018-12-26', 'lte': '2019-03-25'}), Term(symbol='rfem')]))
     aggs = A(DateHistogram(field='date', interval='1d', format='yyyy-MM-dd', min_doc_count=1))
     aggs_tp = A(ScriptedMetric(init_script='state.totals=[]', map_script='state.totals.add((doc.high.value+doc.low.value+doc.close.value)/3)', combine_script='double total=0; for (t in state.totals) {total += t} return total',
